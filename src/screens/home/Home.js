@@ -50,12 +50,12 @@ export class Home extends Component {
 		return (
 			<Layout.Content style={{ padding: '0 50px' }}>
 				<Row type="flex" justify="center" align="top">
-					<Col span={12}>
+					<Col xs={24} md={20} lg={16} xl={12}>
 						<SearchCity onSelectCity={this.handleSelectCity} />
 					</Col>
 				</Row>
 				<Row type="flex" justify="center" style={{ marginTop: 15 }}>
-					<Col span={12}>
+					<Col xs={24} md={20} lg={16} xl={12}>
 						<Spin spinning={!this.state.loaded}>
 							<ListOfCities data={this.state.cities} onRemoveItem={this.handleRemoveCity} />
 						</Spin>

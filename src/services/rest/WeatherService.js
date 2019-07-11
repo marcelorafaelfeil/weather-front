@@ -57,9 +57,11 @@ export class WeatherService {
 					}
 					data.list[index].weather[0].icon = newIcon;
 				}
+				data.list[index].selected = false;
 			});
 
 			today = {
+				selected: false,
 				city: data.city,
 				...data.list[0]
 			}

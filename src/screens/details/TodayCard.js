@@ -3,6 +3,8 @@ import { WeatherCard } from '../../components/weather/WeatherCard';
 import { WeatherIcon } from '../../components/weather/WeatherIcon';
 import { Skeleton, Empty } from 'antd';
 import styled from 'styled-components';
+import { MinAndMax } from '../../components/weather/MinAndMax';
+import { WeatherDetailsButton } from '../../components/weather/WeatherDetailsButton';
 
 const CityName = styled.h1`
 	font-size: 3rem;
@@ -26,41 +28,21 @@ const WeatherDescription = styled.div`
 	text-transform: capitalize;
 	text-align: center;
 `;
-const MinAndMax = styled.div`
-	font-size: 1rem;
-	font-weight: 600;
-	color: #a3a3a3;
-	text-transform: capitalize;
-	text-align: center;
-	display: flex;
-	div {
-		&.divider {
-			width: 1px;
-			background-color: #707070;
-			margin: 0 15px;
-		}
-	}
-`;
 
 export class TodayCard extends React.Component {
+	onClick = data => {
+		if (!!this.props.onSelect) {
+			this.props.onSelect(data);
+		}
+	};
+
 	renderWeather = data => {
 		return (
 			<div>
-				<MinAndMax>
-					<div className="min">
-						<span className="caret" />
-						<span>28º</span>
-					</div>
-					<div className="divider" />
-					<div className="max">
-						<span className="caret" />
-						<span>36º</span>
-					</div>
-				</MinAndMax>
-				<CityName>Blumenau</CityName>
+				<CityName>{data.city.name}</CityName>
 				<div style={{ textAlign: 'center', marginTop: 30 }}>
 					<WeatherIcon
-						height="200"
+						style={{ maxHeight: 200, width: '100%' }}
 						name={data.weather[0].icon}
 						alt={data.weather[0].description}
 					/>
@@ -69,6 +51,12 @@ export class TodayCard extends React.Component {
 				<WeatherDescription>
 					{data.weather[0].description}
 				</WeatherDescription>
+				<MinAndMax min={26} max={32} />
+				<WeatherDetailsButton
+					onClick={() => this.onClick(data)}
+					active={data.selected}
+					style={{ textAlign: 'center' }}
+				/>
 			</div>
 		);
 	};
@@ -81,7 +69,7 @@ export class TodayCard extends React.Component {
 				primary
 				title={'Detalhes'}
 				subTitle={'Previsão do tempo'}
-				onBack={() => null}
+				onBack={this.props.onBack}
 				extraText="Hoje"
 			>
 				{this.props.loading ? (
