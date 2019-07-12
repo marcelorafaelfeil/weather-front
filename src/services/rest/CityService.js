@@ -1,10 +1,10 @@
 import { AntUtilsService } from '../AntUtilsService';
 
 export class CityService {
-	static URL_SEARCH_CITY = '/5d26788a2f0000df95c10ea0';
-	static URL_GET_MY_LIST = '/5d26b003320000610071b60c';
-	static URL_ADD_IN_MY_LIST = '/5d26b24a320000590071b615';
-	static URL_REMOVE_OF_MY_LIST = '/5d26b24a320000590071b615';
+	static URL_SEARCH_CITY = '/city';
+	static URL_GET_MY_LIST = '/selectCity';
+	static URL_ADD_IN_MY_LIST = '/selectCity';
+	static URL_REMOVE_OF_MY_LIST = '/selectCity';
 
 	static abortSearchCity;
 
@@ -16,8 +16,11 @@ export class CityService {
 		return fetch(
 			`${process.env.REACT_APP_API_URL}${
 				CityService.URL_SEARCH_CITY
-			}?q=${query}`,
+			}?query=${query}`,
 			{
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8'
+				},
 				method: 'GET',
 				signal: CityService.abortSearchCity.signal
 			}
@@ -30,6 +33,9 @@ export class CityService {
 		const response = await fetch(
 			`${process.env.REACT_APP_API_URL}${CityService.URL_GET_MY_LIST}`,
 			{
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8'
+				},
 				method: 'GET'
 			}
 		);
@@ -40,6 +46,9 @@ export class CityService {
 		return fetch(
 			`${process.env.REACT_APP_API_URL}${CityService.URL_ADD_IN_MY_LIST}`,
 			{
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8'
+				},
 				method: 'POST',
 				body: JSON.stringify(data)
 			}
@@ -48,8 +57,13 @@ export class CityService {
 
 	static async removeOfMyList(data) {
 		return fetch(
-			`${process.env.REACT_APP_API_URL}${CityService.URL_REMOVE_OF_MY_LIST}`,
+			`${process.env.REACT_APP_API_URL}${
+				CityService.URL_REMOVE_OF_MY_LIST
+			}`,
 			{
+				headers: {
+					'Content-Type': 'application/json;charset=UTF-8'
+				},
 				method: 'DELETE',
 				body: JSON.stringify(data)
 			}

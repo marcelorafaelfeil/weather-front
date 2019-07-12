@@ -10,24 +10,33 @@ export class SearchCity extends React.Component {
 		searchValueText: ''
 	};
 
-	handleSearch = async $event => {
+	typingTimer;
+
+	handleSearch = async ($event) => {
 		this.setState({
 			searchFinished: false,
 			loaded: false
 		});
-		const data = await CityService.searchCity($event);
-		this.setState({
-			dataSource: !!data ? data : [],
-			searchFinished: true,
-			loaded: true
+		if (!!this.typingTimer) {
+			clearTimeout(this.typingTimer);
+		}
+		this.typingTimer = setTimeout(() => this.executeSearch($event), 800);
+	};
+
+	executeSearch = ($event) => {
+		CityService.searchCity($event).then(data => {
+			this.setState({
+				dataSource: !!data ? data : [],
+				searchFinished: true,
+				loaded: true
+			});
 		});
-		return data;
 	};
 
 	resultOptionItem = item => {
 		const { Option } = AutoComplete;
 		return (
-			<Option key={item.text} data={item.value}>
+			<Option key={item.id + ' - ' + item.text} data={item.value}>
 				<div className="global-search-item">
 					<span className="global-search-item-desc">{item.text}</span>
 				</div>
